@@ -60,32 +60,51 @@ class HomePage extends ConsumerWidget {
                       fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 subtitle: Text(resume.jobTitle),
-                trailing: IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text(
-                          'Do you want to delete this resume?',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                        actions: [
-                          TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('No')),
-                          TextButton(
-                              onPressed: () {
-                                ref
-                                    .read(resumeProvider.notifier)
-                                    .removeResume(index);
-                              },
-                              child: const Text('Yes')),
-                        ],
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.delete),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CreateResumePage(
+                                  isEdit: true,
+                                  resumeIndex: index,
+                                  resumeModel: resume,
+                                ),
+                              ));
+                        },
+                        icon: const Icon(Icons.edit)),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text(
+                              'Do you want to delete this resume?',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('No')),
+                              TextButton(
+                                  onPressed: () {
+                                    ref
+                                        .read(resumeProvider.notifier)
+                                        .removeResume(index);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Yes')),
+                            ],
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.delete),
+                    ),
+                  ],
                 ),
               ),
             );
